@@ -4,9 +4,12 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
+import { ListValue, ListAttributeValue } from "mendix";
 import { Big } from "big.js";
 
 export type BasemapEnum = "streetsnavigation" | "streets" | "satellite" | "hybrid" | "topo" | "gray" | "darkgray" | "oceans";
+
+export type MarkerColorEnum = "blue" | "red" | "green" | "yellow" | "orange" | "purple";
 
 export type SearchPositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
 
@@ -29,6 +32,11 @@ export interface ArcWidgetContainerProps {
     widgetHeight: number;
     showZoomControls: boolean;
     showAttribution: boolean;
+    dataSource?: ListValue;
+    latitudeAttribute?: ListAttributeValue<Big>;
+    longitudeAttribute?: ListAttributeValue<Big>;
+    titleAttribute?: ListAttributeValue<string>;
+    markerColor: MarkerColorEnum;
     enableSearch: boolean;
     searchStartExpanded: boolean;
     searchPosition: SearchPositionEnum;
@@ -60,6 +68,11 @@ export interface ArcWidgetPreviewProps {
     widgetHeight: number | null;
     showZoomControls: boolean;
     showAttribution: boolean;
+    dataSource: {} | { caption: string } | { type: string } | null;
+    latitudeAttribute: string;
+    longitudeAttribute: string;
+    titleAttribute: string;
+    markerColor: MarkerColorEnum;
     enableSearch: boolean;
     searchStartExpanded: boolean;
     searchPosition: SearchPositionEnum;

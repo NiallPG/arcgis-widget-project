@@ -1,5 +1,5 @@
 import { ReactElement, createElement } from "react";
-import { ArcMap } from "./components/HelloWorldSample";
+import { ArcMap } from "./components/ArcGISMap";
 import { ArcWidgetContainerProps } from "../typings/ArcWidgetProps";
 import "./ui/ArcWidget.css";
 
@@ -12,6 +12,11 @@ export function ArcWidget({
     widgetHeight,
     showZoomControls,
     showAttribution,
+    dataSource,
+    latitudeAttribute,
+    longitudeAttribute,
+    titleAttribute,
+    markerColor,
     enableSearch,
     searchStartExpanded,
     searchPosition,
@@ -36,6 +41,11 @@ export function ArcWidget({
             widgetHeight={widgetHeight}
             showZoomControls={showZoomControls}
             showAttribution={showAttribution}
+            dataSource={dataSource}
+            latitudeAttribute={latitudeAttribute}
+            longitudeAttribute={longitudeAttribute}
+            titleAttribute={titleAttribute}
+            markerColor={markerColor}
             enableSearch={enableSearch}
             searchStartExpanded={searchStartExpanded}
             searchPosition={searchPosition}

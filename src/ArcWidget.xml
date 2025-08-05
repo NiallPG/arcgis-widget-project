@@ -53,6 +53,47 @@
                 <description>Display attribution information</description>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Data Source">
+            <property key="dataSource" type="datasource" isList="true" required="false">
+                <caption>Data Source</caption>
+                <description>Data source containing locations to display on the map</description>
+            </property>
+            <property key="latitudeAttribute" type="attribute" dataSource="dataSource" required="false">
+                <caption>Latitude Attribute</caption>
+                <description>Attribute containing latitude coordinates</description>
+                <attributeTypes>
+                    <attributeType name="Decimal"/>
+                    <attributeType name="Integer"/>
+                </attributeTypes>
+            </property>
+            <property key="longitudeAttribute" type="attribute" dataSource="dataSource" required="false">
+                <caption>Longitude Attribute</caption>
+                <description>Attribute containing longitude coordinates</description>
+                <attributeTypes>
+                    <attributeType name="Decimal"/>
+                    <attributeType name="Integer"/>
+                </attributeTypes>
+            </property>
+            <property key="titleAttribute" type="attribute" dataSource="dataSource" required="false">
+                <caption>Title Attribute</caption>
+                <description>Attribute to use as the title/name for map markers</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
+            <property key="markerColor" type="enumeration" defaultValue="blue">
+                <caption>Marker Color</caption>
+                <description>Color of the map markers</description>
+                <enumerationValues>
+                    <enumerationValue key="blue">Blue</enumerationValue>
+                    <enumerationValue key="red">Red</enumerationValue>
+                    <enumerationValue key="green">Green</enumerationValue>
+                    <enumerationValue key="yellow">Yellow</enumerationValue>
+                    <enumerationValue key="orange">Orange</enumerationValue>
+                    <enumerationValue key="purple">Purple</enumerationValue>
+                </enumerationValues>
+            </property>
+        </propertyGroup>
         <propertyGroup caption="Widgets">
             <property key="enableSearch" type="boolean" defaultValue="true">
                 <caption>Enable Search</caption>
