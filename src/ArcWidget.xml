@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="se team.arcwidget.ArcWidget" pluginWidget="true" needsEntityContext="false" offlineCapable="false"
+        supportedPlatform="Web"
+        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>ArcGIS Map</name>
+    <description>ArcGIS Map widget for displaying interactive maps with basic functionality</description>
+    <icon/>
+    <properties>
+        <propertyGroup caption="Map Configuration">
+            <property key="apiKey" type="string" required="false">
+                <caption>API Key</caption>
+                <description>ArcGIS API Key for accessing premium content and services</description>
+            </property>
+            <property key="basemap" type="enumeration" defaultValue="streetsnavigation">
+                <caption>Basemap</caption>
+                <description>Choose the basemap for the map</description>
+                <enumerationValues>
+                    <enumerationValue key="streetsnavigation">Streets Navigation</enumerationValue>
+                    <enumerationValue key="streets">Streets</enumerationValue>
+                    <enumerationValue key="satellite">Satellite</enumerationValue>
+                    <enumerationValue key="hybrid">Hybrid</enumerationValue>
+                    <enumerationValue key="topo">Topographic</enumerationValue>
+                    <enumerationValue key="gray">Gray Canvas</enumerationValue>
+                    <enumerationValue key="darkgray">Dark Gray Canvas</enumerationValue>
+                    <enumerationValue key="oceans">Oceans</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="centerLat" type="decimal" defaultValue="39.8283">
+                <caption>Center Latitude</caption>
+                <description>Initial center latitude of the map</description>
+            </property>
+            <property key="centerLon" type="decimal" defaultValue="-98.5795">
+                <caption>Center Longitude</caption>
+                <description>Initial center longitude of the map</description>
+            </property>
+            <property key="zoomLevel" type="integer" defaultValue="4">
+                <caption>Zoom Level</caption>
+                <description>Initial zoom level of the map (1-20)</description>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Appearance">
+            <property key="widgetHeight" type="integer" defaultValue="400">
+                <caption>Height (px)</caption>
+                <description>Height of the map widget in pixels</description>
+            </property>
+            <property key="showZoomControls" type="boolean" defaultValue="true">
+                <caption>Show Zoom Controls</caption>
+                <description>Display zoom in/out controls on the map</description>
+            </property>
+            <property key="showAttribution" type="boolean" defaultValue="true">
+                <caption>Show Attribution</caption>
+                <description>Display attribution information</description>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
