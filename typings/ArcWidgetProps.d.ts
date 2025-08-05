@@ -14,6 +14,8 @@ export type BasemapTogglePositionEnum = "topright" | "topleft" | "bottomright" |
 
 export type LegendPositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
 
+export type LayerTogglePositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
+
 export interface ArcWidgetContainerProps {
     name: string;
     class: string;
@@ -34,6 +36,9 @@ export interface ArcWidgetContainerProps {
     basemapTogglePosition: BasemapTogglePositionEnum;
     enableLegend: boolean;
     legendPosition: LegendPositionEnum;
+    enableLayerToggle: boolean;
+    layerToggleStartExpanded: boolean;
+    layerTogglePosition: LayerTogglePositionEnum;
 }
 
 export interface ArcWidgetPreviewProps {
@@ -62,4 +67,7 @@ export interface ArcWidgetPreviewProps {
     basemapTogglePosition: BasemapTogglePositionEnum;
     enableLegend: boolean;
     legendPosition: LegendPositionEnum;
+    enableLayerToggle: boolean;
+    layerToggleStartExpanded: boolean;
+    layerTogglePosition: LayerTogglePositionEnum;
 }

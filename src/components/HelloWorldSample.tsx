@@ -1,5 +1,5 @@
 import { ReactElement, createElement, useEffect, useRef, useState } from "react";
-import { BasemapEnum, SearchPositionEnum, BasemapTogglePositionEnum, LegendPositionEnum } from "../../typings/ArcWidgetProps";
+import { BasemapEnum, SearchPositionEnum, BasemapTogglePositionEnum, LegendPositionEnum, LayerTogglePositionEnum } from "../../typings/ArcWidgetProps";
 
 declare global {
     interface Window {
@@ -42,6 +42,9 @@ export interface ArcMapProps {
     basemapTogglePosition: BasemapTogglePositionEnum;
     enableLegend: boolean;
     legendPosition: LegendPositionEnum;
+    enableLayerToggle: boolean;
+    layerToggleStartExpanded: boolean;
+    layerTogglePosition: LayerTogglePositionEnum;
     className?: string;
 }
 
@@ -61,6 +64,9 @@ export function ArcMap({
     basemapTogglePosition,
     enableLegend,
     legendPosition,
+    enableLayerToggle,
+    layerToggleStartExpanded,
+    layerTogglePosition,
     className
 }: ArcMapProps): ReactElement {
     const mapDiv = useRef<HTMLDivElement>(null);
@@ -95,8 +101,8 @@ export function ArcMap({
                 }
 
                 window.require(
-                    ["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Zoom", "esri/widgets/Attribution", "esri/widgets/Search", "esri/widgets/BasemapGallery", "esri/widgets/Legend"],
-                    (config: any, EsriMap: any, MapView: any, Zoom: any, Attribution: any, Search: any, BasemapGallery: any, Legend: any) => {
+                    ["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Zoom", "esri/widgets/Attribution", "esri/widgets/Search", "esri/widgets/BasemapGallery", "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/Expand"],
+                    (config: any, EsriMap: any, MapView: any, Zoom: any, Attribution: any, Search: any, BasemapGallery: any, Legend: any, LayerList: any, Expand: any) => {
                         try {
                             if (apiKey) {
                                 config.apiKey = apiKey;
@@ -158,6 +164,24 @@ export function ArcMap({
                                             view: mapView.current
                                         });
                                         mapView.current.ui.add(legendWidget, positionMapping[legendPosition] || "top-right");
+                                    }
+
+                                    if (enableLayerToggle) {
+                                        const layerList = new LayerList({
+                                            view: mapView.current
+                                        });
+                                        
+                                        if (layerToggleStartExpanded) {
+                                            mapView.current.ui.add(layerList, positionMapping[layerTogglePosition] || "top-right");
+                                        } else {
+                                            const layerListExpand = new Expand({
+                                                view: mapView.current,
+                                                content: layerList,
+                                                expanded: false,
+                                                expandIconClass: "esri-icon-layer-list"
+                                            });
+                                            mapView.current.ui.add(layerListExpand, positionMapping[layerTogglePosition] || "top-right");
+                                        }
                                     }
                                 })
                                 .catch((err: any) => {

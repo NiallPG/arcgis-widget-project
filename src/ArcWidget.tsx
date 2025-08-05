@@ -19,6 +19,9 @@ export function ArcWidget({
     basemapTogglePosition,
     enableLegend,
     legendPosition,
+    enableLayerToggle,
+    layerToggleStartExpanded,
+    layerTogglePosition,
     class: className
 }: ArcWidgetContainerProps): ReactElement {
     const combinedClassName = `arcgis-map-widget ${className || ""}`.trim();
@@ -40,6 +43,9 @@ export function ArcWidget({
             basemapTogglePosition={basemapTogglePosition}
             enableLegend={enableLegend}
             legendPosition={legendPosition}
+            enableLayerToggle={enableLayerToggle}
+            layerToggleStartExpanded={layerToggleStartExpanded}
+            layerTogglePosition={layerTogglePosition}
             className={combinedClassName}
         />
     );

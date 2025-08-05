@@ -53,13 +53,13 @@
                 <description>Display attribution information</description>
             </property>
         </propertyGroup>
-        <propertyGroup caption="Search">
+        <propertyGroup caption="Widgets">
             <property key="enableSearch" type="boolean" defaultValue="true">
                 <caption>Enable Search</caption>
                 <description>Add a search widget to find locations by address</description>
             </property>
             <property key="searchStartExpanded" type="boolean" defaultValue="false">
-                <caption>Start Expanded</caption>
+                <caption>Search Start Expanded</caption>
                 <description>Whether the search box is expanded on first load</description>
             </property>
             <property key="searchPosition" type="enumeration" defaultValue="topright">
@@ -72,14 +72,12 @@
                     <enumerationValue key="bottomleft">Bottom Left</enumerationValue>
                 </enumerationValues>
             </property>
-        </propertyGroup>
-        <propertyGroup caption="Basemap Toggle">
             <property key="enableBasemapToggle" type="boolean" defaultValue="false">
                 <caption>Enable Basemap Toggle</caption>
                 <description>Add a basemap gallery to switch between different basemaps</description>
             </property>
             <property key="basemapTogglePosition" type="enumeration" defaultValue="bottomleft">
-                <caption>Toggle Position</caption>
+                <caption>Basemap Toggle Position</caption>
                 <description>Position of the basemap toggle on the map</description>
                 <enumerationValues>
                     <enumerationValue key="topright">Top Right</enumerationValue>
@@ -88,8 +86,6 @@
                     <enumerationValue key="bottomleft">Bottom Left</enumerationValue>
                 </enumerationValues>
             </property>
-        </propertyGroup>
-        <propertyGroup caption="Legend">
             <property key="enableLegend" type="boolean" defaultValue="false">
                 <caption>Enable Legend</caption>
                 <description>Add a legend widget to show map symbols and their meanings</description>
@@ -97,6 +93,24 @@
             <property key="legendPosition" type="enumeration" defaultValue="topright">
                 <caption>Legend Position</caption>
                 <description>Position of the legend widget on the map</description>
+                <enumerationValues>
+                    <enumerationValue key="topright">Top Right</enumerationValue>
+                    <enumerationValue key="topleft">Top Left</enumerationValue>
+                    <enumerationValue key="bottomright">Bottom Right</enumerationValue>
+                    <enumerationValue key="bottomleft">Bottom Left</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="enableLayerToggle" type="boolean" defaultValue="false">
+                <caption>Enable Layer Toggle</caption>
+                <description>Add a layer list widget to toggle visibility of map layers</description>
+            </property>
+            <property key="layerToggleStartExpanded" type="boolean" defaultValue="false">
+                <caption>Layer Toggle Start Expanded</caption>
+                <description>Whether the layer list is expanded on first load</description>
+            </property>
+            <property key="layerTogglePosition" type="enumeration" defaultValue="topright">
+                <caption>Layer Toggle Position</caption>
+                <description>Position of the layer toggle widget on the map</description>
                 <enumerationValues>
                     <enumerationValue key="topright">Top Right</enumerationValue>
                     <enumerationValue key="topleft">Top Left</enumerationValue>
