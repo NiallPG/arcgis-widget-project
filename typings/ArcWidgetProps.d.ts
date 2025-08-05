@@ -8,6 +8,12 @@ import { Big } from "big.js";
 
 export type BasemapEnum = "streetsnavigation" | "streets" | "satellite" | "hybrid" | "topo" | "gray" | "darkgray" | "oceans";
 
+export type SearchPositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
+
+export type BasemapTogglePositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
+
+export type LegendPositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
+
 export interface ArcWidgetContainerProps {
     name: string;
     class: string;
@@ -21,6 +27,13 @@ export interface ArcWidgetContainerProps {
     widgetHeight: number;
     showZoomControls: boolean;
     showAttribution: boolean;
+    enableSearch: boolean;
+    searchStartExpanded: boolean;
+    searchPosition: SearchPositionEnum;
+    enableBasemapToggle: boolean;
+    basemapTogglePosition: BasemapTogglePositionEnum;
+    enableLegend: boolean;
+    legendPosition: LegendPositionEnum;
 }
 
 export interface ArcWidgetPreviewProps {
@@ -42,4 +55,11 @@ export interface ArcWidgetPreviewProps {
     widgetHeight: number | null;
     showZoomControls: boolean;
     showAttribution: boolean;
+    enableSearch: boolean;
+    searchStartExpanded: boolean;
+    searchPosition: SearchPositionEnum;
+    enableBasemapToggle: boolean;
+    basemapTogglePosition: BasemapTogglePositionEnum;
+    enableLegend: boolean;
+    legendPosition: LegendPositionEnum;
 }

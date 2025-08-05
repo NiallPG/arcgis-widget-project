@@ -12,6 +12,13 @@ export function ArcWidget({
     widgetHeight,
     showZoomControls,
     showAttribution,
+    enableSearch,
+    searchStartExpanded,
+    searchPosition,
+    enableBasemapToggle,
+    basemapTogglePosition,
+    enableLegend,
+    legendPosition,
     class: className
 }: ArcWidgetContainerProps): ReactElement {
     const combinedClassName = `arcgis-map-widget ${className || ""}`.trim();
@@ -26,6 +33,13 @@ export function ArcWidget({
             widgetHeight={widgetHeight}
             showZoomControls={showZoomControls}
             showAttribution={showAttribution}
+            enableSearch={enableSearch}
+            searchStartExpanded={searchStartExpanded}
+            searchPosition={searchPosition}
+            enableBasemapToggle={enableBasemapToggle}
+            basemapTogglePosition={basemapTogglePosition}
+            enableLegend={enableLegend}
+            legendPosition={legendPosition}
             className={combinedClassName}
         />
     );

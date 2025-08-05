@@ -1,5 +1,5 @@
 import { ReactElement, createElement, useEffect, useRef, useState } from "react";
-import { BasemapEnum } from "../../typings/ArcWidgetProps";
+import { BasemapEnum, SearchPositionEnum, BasemapTogglePositionEnum, LegendPositionEnum } from "../../typings/ArcWidgetProps";
 
 declare global {
     interface Window {
@@ -19,6 +19,13 @@ const basemapMapping: Record<string, string> = {
     oceans: "oceans"
 };
 
+const positionMapping: Record<string, string> = {
+    topright: "top-right",
+    topleft: "top-left",
+    bottomright: "bottom-right",
+    bottomleft: "bottom-left"
+};
+
 export interface ArcMapProps {
     apiKey?: string;
     basemap: BasemapEnum;
@@ -28,6 +35,13 @@ export interface ArcMapProps {
     widgetHeight: number;
     showZoomControls: boolean;
     showAttribution: boolean;
+    enableSearch: boolean;
+    searchStartExpanded: boolean;
+    searchPosition: SearchPositionEnum;
+    enableBasemapToggle: boolean;
+    basemapTogglePosition: BasemapTogglePositionEnum;
+    enableLegend: boolean;
+    legendPosition: LegendPositionEnum;
     className?: string;
 }
 
@@ -40,6 +54,13 @@ export function ArcMap({
     widgetHeight,
     showZoomControls,
     showAttribution,
+    enableSearch,
+    searchStartExpanded,
+    searchPosition,
+    enableBasemapToggle,
+    basemapTogglePosition,
+    enableLegend,
+    legendPosition,
     className
 }: ArcMapProps): ReactElement {
     const mapDiv = useRef<HTMLDivElement>(null);
@@ -74,8 +95,8 @@ export function ArcMap({
                 }
 
                 window.require(
-                    ["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Zoom", "esri/widgets/Attribution"],
-                    (config: any, EsriMap: any, MapView: any, Zoom: any, Attribution: any) => {
+                    ["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Zoom", "esri/widgets/Attribution", "esri/widgets/Search", "esri/widgets/BasemapGallery", "esri/widgets/Legend"],
+                    (config: any, EsriMap: any, MapView: any, Zoom: any, Attribution: any, Search: any, BasemapGallery: any, Legend: any) => {
                         try {
                             if (apiKey) {
                                 config.apiKey = apiKey;
@@ -115,6 +136,28 @@ export function ArcMap({
                                             view: mapView.current
                                         });
                                         mapView.current.ui.add(attributionWidget, "bottom-right");
+                                    }
+
+                                    if (enableSearch) {
+                                        const searchWidget = new Search({
+                                            view: mapView.current,
+                                            expanded: searchStartExpanded
+                                        });
+                                        mapView.current.ui.add(searchWidget, positionMapping[searchPosition] || "top-right");
+                                    }
+
+                                    if (enableBasemapToggle) {
+                                        const basemapGallery = new BasemapGallery({
+                                            view: mapView.current
+                                        });
+                                        mapView.current.ui.add(basemapGallery, positionMapping[basemapTogglePosition] || "bottom-left");
+                                    }
+
+                                    if (enableLegend) {
+                                        const legendWidget = new Legend({
+                                            view: mapView.current
+                                        });
+                                        mapView.current.ui.add(legendWidget, positionMapping[legendPosition] || "top-right");
                                     }
                                 })
                                 .catch((err: any) => {
