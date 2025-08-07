@@ -24,6 +24,7 @@ export function ArcWidget({
     basemapTogglePosition,
     enableLegend,
     legendPosition,
+    legendStartExpanded,
     enableLayerToggle,
     layerToggleStartExpanded,
     layerTogglePosition,
@@ -35,7 +36,6 @@ export function ArcWidget({
     layerVisibleAttribute,
     layerOpacityAttribute,
     enablePopups,
-    popupTemplateAttribute,
     class: className
 }: ArcWidgetContainerProps): ReactElement {
     const combinedClassName = `arcgis-map-widget ${className || ""}`.trim();
@@ -62,6 +62,7 @@ export function ArcWidget({
             basemapTogglePosition={basemapTogglePosition}
             enableLegend={enableLegend}
             legendPosition={legendPosition}
+            legendStartExpanded={legendStartExpanded}
             enableLayerToggle={enableLayerToggle}
             layerToggleStartExpanded={layerToggleStartExpanded}
             layerTogglePosition={layerTogglePosition}
@@ -73,7 +74,6 @@ export function ArcWidget({
             layerVisibleAttribute={layerVisibleAttribute}
             layerOpacityAttribute={layerOpacityAttribute}
             enablePopups={enablePopups}
-            popupTemplateAttribute={popupTemplateAttribute}
             className={combinedClassName}
         />
     );

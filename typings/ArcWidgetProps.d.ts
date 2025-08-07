@@ -44,6 +44,7 @@ export interface ArcWidgetContainerProps {
     basemapTogglePosition: BasemapTogglePositionEnum;
     enableLegend: boolean;
     legendPosition: LegendPositionEnum;
+    legendStartExpanded: boolean;
     enableLayerToggle: boolean;
     layerToggleStartExpanded: boolean;
     layerTogglePosition: LayerTogglePositionEnum;
@@ -55,7 +56,6 @@ export interface ArcWidgetContainerProps {
     layerVisibleAttribute?: ListAttributeValue<boolean>;
     layerOpacityAttribute?: ListAttributeValue<Big>;
     enablePopups: boolean;
-    popupTemplateAttribute?: ListAttributeValue<string>;
 }
 
 export interface ArcWidgetPreviewProps {
@@ -89,6 +89,7 @@ export interface ArcWidgetPreviewProps {
     basemapTogglePosition: BasemapTogglePositionEnum;
     enableLegend: boolean;
     legendPosition: LegendPositionEnum;
+    legendStartExpanded: boolean;
     enableLayerToggle: boolean;
     layerToggleStartExpanded: boolean;
     layerTogglePosition: LayerTogglePositionEnum;
@@ -100,5 +101,4 @@ export interface ArcWidgetPreviewProps {
     layerVisibleAttribute: string;
     layerOpacityAttribute: string;
     enablePopups: boolean;
-    popupTemplateAttribute: string;
 }

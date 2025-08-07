@@ -131,7 +131,7 @@
                 <caption>Enable Legend</caption>
                 <description>Add a legend widget to show map symbols and their meanings</description>
             </property>
-            <property key="legendPosition" type="enumeration" defaultValue="topright">
+            <property key="legendPosition" type="enumeration" defaultValue="bottomright">
                 <caption>Legend Position</caption>
                 <description>Position of the legend widget on the map</description>
                 <enumerationValues>
@@ -140,6 +140,10 @@
                     <enumerationValue key="bottomright">Bottom Right</enumerationValue>
                     <enumerationValue key="bottomleft">Bottom Left</enumerationValue>
                 </enumerationValues>
+            </property>
+            <property key="legendStartExpanded" type="boolean" defaultValue="false">
+                <caption>Legend Start Expanded</caption>
+                <description>Whether the legend is expanded on first load</description>
             </property>
             <property key="enableLayerToggle" type="boolean" defaultValue="false">
                 <caption>Enable Layer Toggle</caption>
@@ -211,13 +215,6 @@
             <property key="enablePopups" type="boolean" defaultValue="true">
                 <caption>Enable Feature Popups</caption>
                 <description>Show popups when clicking on features in dynamic layers</description>
-            </property>
-            <property key="popupTemplateAttribute" type="attribute" dataSource="dynamicLayerSource" required="false">
-                <caption>Custom Popup Template</caption>
-                <description>Optional JSON template for custom popup content</description>
-                <attributeTypes>
-                    <attributeType name="String"/>
-                </attributeTypes>
             </property>
         </propertyGroup>
     </properties>
