@@ -8,6 +8,15 @@ ArcGIS Map Widget Custom CSS
     overflow: hidden;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 400px;
+}
+
+/* Fixed height container for proper map display */
+.arcgis-map-container {
+    height: 600px !important;
+    min-height: 600px !important;
+    width: 100%;
+    position: relative;
 }
 
 /* Ensure proper sizing */

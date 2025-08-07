@@ -160,5 +160,54 @@
                 </enumerationValues>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Dynamic Layers">
+            <property key="dynamicLayerSource" type="datasource" isList="true" required="false">
+                <caption>Dynamic Layer Data Source</caption>
+                <description>Data source containing layer configurations to dynamically load on the map</description>
+            </property>
+            <property key="layerIdAttribute" type="attribute" dataSource="dynamicLayerSource" required="false">
+                <caption>Layer ID</caption>
+                <description>Unique identifier for the layer</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
+            <property key="layerUrlAttribute" type="attribute" dataSource="dynamicLayerSource" required="false">
+                <caption>Layer URL</caption>
+                <description>URL of the ArcGIS service (FeatureServer, MapServer, etc.)</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
+            <property key="layerTypeAttribute" type="attribute" dataSource="dynamicLayerSource" required="false">
+                <caption>Layer Type</caption>
+                <description>Type of layer service (FeatureServer, MapServer, WMS, etc.)</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                    <attributeType name="Enum"/>
+                </attributeTypes>
+            </property>
+            <property key="layerTitleAttribute" type="attribute" dataSource="dynamicLayerSource" required="false">
+                <caption>Layer Title</caption>
+                <description>Display name for the layer in the layer list</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
+            <property key="layerVisibleAttribute" type="attribute" dataSource="dynamicLayerSource" required="false">
+                <caption>Visible on Load</caption>
+                <description>Whether the layer should be visible when first loaded</description>
+                <attributeTypes>
+                    <attributeType name="Boolean"/>
+                </attributeTypes>
+            </property>
+            <property key="layerOpacityAttribute" type="attribute" dataSource="dynamicLayerSource" required="false">
+                <caption>Layer Opacity</caption>
+                <description>Opacity of the layer (0.0 to 1.0)</description>
+                <attributeTypes>
+                    <attributeType name="Decimal"/>
+                </attributeTypes>
+            </property>
+        </propertyGroup>
     </properties>
 </widget>

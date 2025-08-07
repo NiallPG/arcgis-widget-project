@@ -61,6 +61,13 @@ export interface ArcMapProps {
     longitudeAttribute?: ListAttributeValue<Big>;
     titleAttribute?: ListAttributeValue<string>;
     markerColor: MarkerColorEnum;
+    dynamicLayerSource?: ListValue;
+    layerIdAttribute?: ListAttributeValue<string>;
+    layerUrlAttribute?: ListAttributeValue<string>;
+    layerTypeAttribute?: ListAttributeValue<string>;
+    layerTitleAttribute?: ListAttributeValue<string>;
+    layerVisibleAttribute?: ListAttributeValue<boolean>;
+    layerOpacityAttribute?: ListAttributeValue<Big>;
     className?: string;
 }
 
@@ -88,6 +95,13 @@ export function ArcMap({
     longitudeAttribute,
     titleAttribute,
     markerColor,
+    dynamicLayerSource,
+    layerIdAttribute,
+    layerUrlAttribute,
+    layerTypeAttribute,
+    layerTitleAttribute,
+    layerVisibleAttribute,
+    layerOpacityAttribute,
     className
 }: ArcMapProps): ReactElement {
     const mapDiv = useRef<HTMLDivElement>(null);
@@ -122,8 +136,8 @@ export function ArcMap({
                 }
 
                 window.require(
-                    ["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Zoom", "esri/widgets/Attribution", "esri/widgets/Search", "esri/widgets/BasemapGallery", "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/Expand", "esri/layers/GraphicsLayer", "esri/Graphic", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol"],
-                    (config: any, EsriMap: any, MapView: any, Zoom: any, Attribution: any, Search: any, BasemapGallery: any, Legend: any, LayerList: any, Expand: any, GraphicsLayer: any, Graphic: any, Point: any, SimpleMarkerSymbol: any) => {
+                    ["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Zoom", "esri/widgets/Attribution", "esri/widgets/Search", "esri/widgets/BasemapGallery", "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/Expand", "esri/layers/GraphicsLayer", "esri/layers/FeatureLayer", "esri/layers/MapImageLayer", "esri/layers/WMSLayer", "esri/Graphic", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol"],
+                    (config: any, EsriMap: any, MapView: any, Zoom: any, Attribution: any, Search: any, BasemapGallery: any, Legend: any, LayerList: any, Expand: any, GraphicsLayer: any, FeatureLayer: any, MapImageLayer: any, WMSLayer: any, Graphic: any, Point: any, SimpleMarkerSymbol: any) => {
                         try {
                             if (apiKey) {
                                 config.apiKey = apiKey;
@@ -132,6 +146,56 @@ export function ArcMap({
                             const map = new EsriMap({
                                 basemap: basemapMapping[basemap] || basemap
                             });
+
+                            // Load dynamic layers from Mendix data source
+                            if (dynamicLayerSource && dynamicLayerSource.items && layerUrlAttribute) {
+                                dynamicLayerSource.items.forEach((layerItem: any) => {
+                                    const layerUrl = layerUrlAttribute.get(layerItem).value;
+                                    const layerType = layerTypeAttribute ? layerTypeAttribute.get(layerItem).value : "FeatureServer";
+                                    const layerTitle = layerTitleAttribute ? layerTitleAttribute.get(layerItem).value : "Layer";
+                                    const layerId = layerIdAttribute ? layerIdAttribute.get(layerItem).value : layerTitle;
+                                    const visible = layerVisibleAttribute ? layerVisibleAttribute.get(layerItem).value : true;
+                                    const opacity = layerOpacityAttribute ? Number(layerOpacityAttribute.get(layerItem).value?.toString() || "1") : 1.0;
+
+                                    if (layerUrl) {
+                                        let layer: any = null;
+                                        
+                                        // Create appropriate layer type based on the service type
+                                        if (layerType === "MapServer" || layerType === "MapImageLayer") {
+                                            layer = new MapImageLayer({
+                                                url: layerUrl,
+                                                title: layerTitle,
+                                                id: layerId,
+                                                visible: visible,
+                                                opacity: opacity
+                                            });
+                                        } else if (layerType === "WMS" || layerType === "WMSLayer") {
+                                            layer = new WMSLayer({
+                                                url: layerUrl,
+                                                title: layerTitle,
+                                                id: layerId,
+                                                visible: visible,
+                                                opacity: opacity
+                                            });
+                                        } else {
+                                            // Default to FeatureLayer for FeatureServer or unknown types
+                                            layer = new FeatureLayer({
+                                                url: layerUrl,
+                                                title: layerTitle,
+                                                id: layerId,
+                                                visible: visible,
+                                                opacity: opacity,
+                                                outFields: ["*"]
+                                            });
+                                        }
+
+                                        if (layer) {
+                                            map.add(layer);
+                                            console.log(`Added dynamic layer: ${layerTitle} (${layerType})`);
+                                        }
+                                    }
+                                });
+                            }
 
                             // Create and add data layer if datasource is provided
                             if (dataSource && dataSource.items && latitudeAttribute && longitudeAttribute) {
@@ -279,13 +343,14 @@ export function ArcMap({
                 mapView.current = null;
             }
         };
-    }, [apiKey, basemap, centerLat, centerLon, zoomLevel, showZoomControls, showAttribution, dataSource, latitudeAttribute, longitudeAttribute, titleAttribute, markerColor]);
+    }, [apiKey, basemap, centerLat, centerLon, zoomLevel, showZoomControls, showAttribution, dataSource, latitudeAttribute, longitudeAttribute, titleAttribute, markerColor, dynamicLayerSource, layerIdAttribute, layerUrlAttribute, layerTypeAttribute, layerTitleAttribute, layerVisibleAttribute, layerOpacityAttribute, enableSearch, searchStartExpanded, searchPosition, enableBasemapToggle, basemapTogglePosition, enableLegend, legendPosition, enableLayerToggle, layerToggleStartExpanded, layerTogglePosition]);
 
     return (
         <div
             className={className}
             style={{
-                height: `${widgetHeight}px`,
+                height: widgetHeight > 0 ? `${widgetHeight}px` : "600px",
+                minHeight: widgetHeight > 0 ? `${widgetHeight}px` : "600px",
                 width: "100%",
                 position: "relative"
             }}

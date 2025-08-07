@@ -27,6 +27,13 @@ export function ArcWidget({
     enableLayerToggle,
     layerToggleStartExpanded,
     layerTogglePosition,
+    dynamicLayerSource,
+    layerIdAttribute,
+    layerUrlAttribute,
+    layerTypeAttribute,
+    layerTitleAttribute,
+    layerVisibleAttribute,
+    layerOpacityAttribute,
     class: className
 }: ArcWidgetContainerProps): ReactElement {
     const combinedClassName = `arcgis-map-widget ${className || ""}`.trim();
@@ -56,6 +63,13 @@ export function ArcWidget({
             enableLayerToggle={enableLayerToggle}
             layerToggleStartExpanded={layerToggleStartExpanded}
             layerTogglePosition={layerTogglePosition}
+            dynamicLayerSource={dynamicLayerSource}
+            layerIdAttribute={layerIdAttribute}
+            layerUrlAttribute={layerUrlAttribute}
+            layerTypeAttribute={layerTypeAttribute}
+            layerTitleAttribute={layerTitleAttribute}
+            layerVisibleAttribute={layerVisibleAttribute}
+            layerOpacityAttribute={layerOpacityAttribute}
             className={combinedClassName}
         />
     );

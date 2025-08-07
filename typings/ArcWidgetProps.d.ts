@@ -47,6 +47,13 @@ export interface ArcWidgetContainerProps {
     enableLayerToggle: boolean;
     layerToggleStartExpanded: boolean;
     layerTogglePosition: LayerTogglePositionEnum;
+    dynamicLayerSource?: ListValue;
+    layerIdAttribute?: ListAttributeValue<string>;
+    layerUrlAttribute?: ListAttributeValue<string>;
+    layerTypeAttribute?: ListAttributeValue<string>;
+    layerTitleAttribute?: ListAttributeValue<string>;
+    layerVisibleAttribute?: ListAttributeValue<boolean>;
+    layerOpacityAttribute?: ListAttributeValue<Big>;
 }
 
 export interface ArcWidgetPreviewProps {
@@ -83,4 +90,11 @@ export interface ArcWidgetPreviewProps {
     enableLayerToggle: boolean;
     layerToggleStartExpanded: boolean;
     layerTogglePosition: LayerTogglePositionEnum;
+    dynamicLayerSource: {} | { caption: string } | { type: string } | null;
+    layerIdAttribute: string;
+    layerUrlAttribute: string;
+    layerTypeAttribute: string;
+    layerTitleAttribute: string;
+    layerVisibleAttribute: string;
+    layerOpacityAttribute: string;
 }
