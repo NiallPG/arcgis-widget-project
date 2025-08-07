@@ -65,5 +65,6 @@ Please report issues and feature requests in the [GitHub Issues](https://github.
     - the widget will be bundled;
     - the bundle will be included in a `dist` folder in the root directory of the project;
     - the bundle will be included in the `deployment` and `widgets` folder of the Mendix test project.
+1. Run `npm run build` to create a production build of the widget.
 
-[specify contribution]
+Contributions are welcome! Please feel free to submit issues and pull requests.
