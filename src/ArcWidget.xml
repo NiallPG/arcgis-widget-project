@@ -217,5 +217,41 @@
                 <description>Show popups when clicking on features in dynamic layers</description>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Spatial Selection">
+            <property key="enableDrawingTools" type="boolean" defaultValue="false">
+                <caption>Enable Drawing Tools</caption>
+                <description>Allow users to draw shapes to select features within the drawn area</description>
+            </property>
+            <property key="drawingToolsPosition" type="enumeration" defaultValue="bottomleft">
+                <caption>Drawing Tools Position</caption>
+                <description>Position of the drawing tools on the map</description>
+                <enumerationValues>
+                    <enumerationValue key="topright">Top Right</enumerationValue>
+                    <enumerationValue key="topleft">Top Left</enumerationValue>
+                    <enumerationValue key="bottomright">Bottom Right</enumerationValue>
+                    <enumerationValue key="bottomleft">Bottom Left</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="onSelectionAction" type="action" required="false">
+                <caption>On Selection Action</caption>
+                <description>Action to execute when features are selected (receives list of selected items)</description>
+            </property>
+            <property key="showSelectionCount" type="boolean" defaultValue="true">
+                <caption>Show Selection Count</caption>
+                <description>Display count of selected features</description>
+            </property>
+            <property key="clearSelectionOnDraw" type="boolean" defaultValue="true">
+                <caption>Clear Selection on New Drawing</caption>
+                <description>Clear previous selection when drawing a new shape</description>
+            </property>
+            <property key="showFeatureList" type="boolean" defaultValue="false">
+                <caption>Show Feature List</caption>
+                <description>Display a list of selected features with their details</description>
+            </property>
+            <property key="maxFeaturesInList" type="integer" defaultValue="10">
+                <caption>Max Features in List</caption>
+                <description>Maximum number of features to show in the details list</description>
+            </property>
+        </propertyGroup>
     </properties>
 </widget>

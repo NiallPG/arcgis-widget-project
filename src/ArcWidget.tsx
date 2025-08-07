@@ -36,6 +36,13 @@ export function ArcWidget({
     layerVisibleAttribute,
     layerOpacityAttribute,
     enablePopups,
+    enableDrawingTools,
+    drawingToolsPosition,
+    onSelectionAction,
+    showSelectionCount,
+    clearSelectionOnDraw,
+    showFeatureList,
+    maxFeaturesInList,
     class: className
 }: ArcWidgetContainerProps): ReactElement {
     const combinedClassName = `arcgis-map-widget ${className || ""}`.trim();
@@ -74,6 +81,13 @@ export function ArcWidget({
             layerVisibleAttribute={layerVisibleAttribute}
             layerOpacityAttribute={layerOpacityAttribute}
             enablePopups={enablePopups}
+            enableDrawingTools={enableDrawingTools}
+            drawingToolsPosition={drawingToolsPosition}
+            onSelectionAction={onSelectionAction}
+            showSelectionCount={showSelectionCount}
+            clearSelectionOnDraw={clearSelectionOnDraw}
+            showFeatureList={showFeatureList}
+            maxFeaturesInList={maxFeaturesInList}
             className={combinedClassName}
         />
     );

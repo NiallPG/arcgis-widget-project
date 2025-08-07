@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ListValue, ListAttributeValue } from "mendix";
+import { ActionValue, ListValue, ListAttributeValue } from "mendix";
 import { Big } from "big.js";
 
 export type BasemapEnum = "streetsnavigation" | "streets" | "satellite" | "hybrid" | "topo" | "gray" | "darkgray" | "oceans";
@@ -18,6 +18,8 @@ export type BasemapTogglePositionEnum = "topright" | "topleft" | "bottomright" |
 export type LegendPositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
 
 export type LayerTogglePositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
+
+export type DrawingToolsPositionEnum = "topright" | "topleft" | "bottomright" | "bottomleft";
 
 export interface ArcWidgetContainerProps {
     name: string;
@@ -56,6 +58,13 @@ export interface ArcWidgetContainerProps {
     layerVisibleAttribute?: ListAttributeValue<boolean>;
     layerOpacityAttribute?: ListAttributeValue<Big>;
     enablePopups: boolean;
+    enableDrawingTools: boolean;
+    drawingToolsPosition: DrawingToolsPositionEnum;
+    onSelectionAction?: ActionValue;
+    showSelectionCount: boolean;
+    clearSelectionOnDraw: boolean;
+    showFeatureList: boolean;
+    maxFeaturesInList: number;
 }
 
 export interface ArcWidgetPreviewProps {
@@ -101,4 +110,11 @@ export interface ArcWidgetPreviewProps {
     layerVisibleAttribute: string;
     layerOpacityAttribute: string;
     enablePopups: boolean;
+    enableDrawingTools: boolean;
+    drawingToolsPosition: DrawingToolsPositionEnum;
+    onSelectionAction: {} | null;
+    showSelectionCount: boolean;
+    clearSelectionOnDraw: boolean;
+    showFeatureList: boolean;
+    maxFeaturesInList: number | null;
 }
