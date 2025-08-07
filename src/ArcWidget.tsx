@@ -34,6 +34,8 @@ export function ArcWidget({
     layerTitleAttribute,
     layerVisibleAttribute,
     layerOpacityAttribute,
+    enablePopups,
+    popupTemplateAttribute,
     class: className
 }: ArcWidgetContainerProps): ReactElement {
     const combinedClassName = `arcgis-map-widget ${className || ""}`.trim();
@@ -70,6 +72,8 @@ export function ArcWidget({
             layerTitleAttribute={layerTitleAttribute}
             layerVisibleAttribute={layerVisibleAttribute}
             layerOpacityAttribute={layerOpacityAttribute}
+            enablePopups={enablePopups}
+            popupTemplateAttribute={popupTemplateAttribute}
             className={combinedClassName}
         />
     );

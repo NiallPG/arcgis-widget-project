@@ -68,6 +68,8 @@ export interface ArcMapProps {
     layerTitleAttribute?: ListAttributeValue<string>;
     layerVisibleAttribute?: ListAttributeValue<boolean>;
     layerOpacityAttribute?: ListAttributeValue<Big>;
+    enablePopups?: boolean;
+    popupTemplateAttribute?: ListAttributeValue<string>;
     className?: string;
 }
 
@@ -102,6 +104,8 @@ export function ArcMap({
     layerTitleAttribute,
     layerVisibleAttribute,
     layerOpacityAttribute,
+    enablePopups,
+    popupTemplateAttribute,
     className
 }: ArcMapProps): ReactElement {
     const mapDiv = useRef<HTMLDivElement>(null);
@@ -136,8 +140,8 @@ export function ArcMap({
                 }
 
                 window.require(
-                    ["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Zoom", "esri/widgets/Attribution", "esri/widgets/Search", "esri/widgets/BasemapGallery", "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/Expand", "esri/layers/GraphicsLayer", "esri/layers/FeatureLayer", "esri/layers/MapImageLayer", "esri/layers/WMSLayer", "esri/Graphic", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol"],
-                    (config: any, EsriMap: any, MapView: any, Zoom: any, Attribution: any, Search: any, BasemapGallery: any, Legend: any, LayerList: any, Expand: any, GraphicsLayer: any, FeatureLayer: any, MapImageLayer: any, WMSLayer: any, Graphic: any, Point: any, SimpleMarkerSymbol: any) => {
+                    ["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Zoom", "esri/widgets/Attribution", "esri/widgets/Search", "esri/widgets/BasemapGallery", "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/Expand", "esri/layers/GraphicsLayer", "esri/layers/FeatureLayer", "esri/layers/MapImageLayer", "esri/layers/WMSLayer", "esri/Graphic", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/PopupTemplate"],
+                    (config: any, EsriMap: any, MapView: any, Zoom: any, Attribution: any, Search: any, BasemapGallery: any, Legend: any, LayerList: any, Expand: any, GraphicsLayer: any, FeatureLayer: any, MapImageLayer: any, WMSLayer: any, Graphic: any, Point: any, SimpleMarkerSymbol: any, PopupTemplate: any) => {
                         try {
                             if (apiKey) {
                                 config.apiKey = apiKey;
@@ -156,9 +160,84 @@ export function ArcMap({
                                     const layerId = layerIdAttribute ? layerIdAttribute.get(layerItem).value : layerTitle;
                                     const visible = layerVisibleAttribute ? layerVisibleAttribute.get(layerItem).value : true;
                                     const opacity = layerOpacityAttribute ? Number(layerOpacityAttribute.get(layerItem).value?.toString() || "1") : 1.0;
+                                    const customPopupTemplate = popupTemplateAttribute ? popupTemplateAttribute.get(layerItem).value : null;
 
                                     if (layerUrl) {
                                         let layer: any = null;
+                                        
+                                        // Create popup template if popups are enabled
+                                        let popupTemplate = null;
+                                        if (enablePopups !== false) {
+                                            if (customPopupTemplate) {
+                                                // Try to parse custom template JSON
+                                                try {
+                                                    popupTemplate = new PopupTemplate(JSON.parse(customPopupTemplate));
+                                                } catch (e) {
+                                                    console.warn("Failed to parse custom popup template, using default", e);
+                                                }
+                                            }
+                                            
+                                            // Use default popup template if no custom one provided
+                                            if (!popupTemplate) {
+                                                // For FeatureLayers, use a smart template that shows all fields in a table
+                                                popupTemplate = {
+                                                    title: layerTitle + " Details",
+                                                    content: async (feature: any) => {
+                                                        // Get all attributes from the feature
+                                                        const attributes = feature.graphic.attributes;
+                                                        
+                                                        // Build a proper two-column table
+                                                        let content = `
+                                                            <div class="esri-feature__content-element">
+                                                                <div class="esri-feature-fields">
+                                                                    <table class="esri-feature-fields__table">
+                                                                        <tbody>`;
+                                                        
+                                                        // Build table rows for each attribute
+                                                        for (const [key, value] of Object.entries(attributes)) {
+                                                            if (value !== null && value !== undefined && 
+                                                                key !== 'OBJECTID' && key !== 'ObjectID' && 
+                                                                key !== 'FID' && key !== 'Shape') {
+                                                                
+                                                                // Format field name (remove underscores, capitalize)
+                                                                const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                                                                
+                                                                // Format value based on type
+                                                                let displayValue: any = value;
+                                                                if (typeof value === 'number') {
+                                                                    // Check if it's a date timestamp (milliseconds since epoch)
+                                                                    if ((key.toLowerCase().includes('time') || key.toLowerCase().includes('date')) && value > 1000000000) {
+                                                                        displayValue = new Date(value).toLocaleString();
+                                                                    } else if (key.toLowerCase().includes('mag') || key.toLowerCase().includes('depth')) {
+                                                                        // Keep decimals for magnitude and depth
+                                                                        displayValue = value.toFixed(2);
+                                                                    } else if (Number.isInteger(value)) {
+                                                                        displayValue = value.toLocaleString();
+                                                                    } else {
+                                                                        displayValue = value.toFixed(4);
+                                                                    }
+                                                                }
+                                                                
+                                                                content += `
+                                                                    <tr class="esri-feature-fields__row">
+                                                                        <td class="esri-feature-fields__field-header">${label}</td>
+                                                                        <td class="esri-feature-fields__field-data">${displayValue}</td>
+                                                                    </tr>`;
+                                                            }
+                                                        }
+                                                        
+                                                        content += `
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>`;
+                                                        
+                                                        return content;
+                                                    },
+                                                    outFields: ["*"]
+                                                };
+                                            }
+                                        }
                                         
                                         // Create appropriate layer type based on the service type
                                         if (layerType === "MapServer" || layerType === "MapImageLayer") {
@@ -167,7 +246,8 @@ export function ArcMap({
                                                 title: layerTitle,
                                                 id: layerId,
                                                 visible: visible,
-                                                opacity: opacity
+                                                opacity: opacity,
+                                                popupEnabled: enablePopups
                                             });
                                         } else if (layerType === "WMS" || layerType === "WMSLayer") {
                                             layer = new WMSLayer({
@@ -185,7 +265,9 @@ export function ArcMap({
                                                 id: layerId,
                                                 visible: visible,
                                                 opacity: opacity,
-                                                outFields: ["*"]
+                                                outFields: ["*"],
+                                                popupEnabled: enablePopups !== false,
+                                                popupTemplate: popupTemplate
                                             });
                                         }
 
@@ -228,8 +310,34 @@ export function ArcMap({
                                             symbol: symbol,
                                             attributes: {
                                                 title: title,
-                                                objectId: item.id
-                                            }
+                                                objectId: item.id,
+                                                latitude: Number(lat.toString()),
+                                                longitude: Number(lon.toString())
+                                            },
+                                            popupTemplate: enablePopups !== false ? {
+                                                title: title,
+                                                content: `
+                                                    <div class="esri-feature__content-element">
+                                                        <div class="esri-feature-fields">
+                                                            <table class="esri-feature-fields__table">
+                                                                <tbody>
+                                                                    <tr class="esri-feature-fields__row">
+                                                                        <td class="esri-feature-fields__field-header">Location</td>
+                                                                        <td class="esri-feature-fields__field-data">${title}</td>
+                                                                    </tr>
+                                                                    <tr class="esri-feature-fields__row">
+                                                                        <td class="esri-feature-fields__field-header">Latitude</td>
+                                                                        <td class="esri-feature-fields__field-data">${Number(lat.toString()).toFixed(6)}</td>
+                                                                    </tr>
+                                                                    <tr class="esri-feature-fields__row">
+                                                                        <td class="esri-feature-fields__field-header">Longitude</td>
+                                                                        <td class="esri-feature-fields__field-data">${Number(lon.toString()).toFixed(6)}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>`
+                                            } : null
                                         });
                                     }
                                     return null;
@@ -343,7 +451,7 @@ export function ArcMap({
                 mapView.current = null;
             }
         };
-    }, [apiKey, basemap, centerLat, centerLon, zoomLevel, showZoomControls, showAttribution, dataSource, latitudeAttribute, longitudeAttribute, titleAttribute, markerColor, dynamicLayerSource, layerIdAttribute, layerUrlAttribute, layerTypeAttribute, layerTitleAttribute, layerVisibleAttribute, layerOpacityAttribute, enableSearch, searchStartExpanded, searchPosition, enableBasemapToggle, basemapTogglePosition, enableLegend, legendPosition, enableLayerToggle, layerToggleStartExpanded, layerTogglePosition]);
+    }, [apiKey, basemap, centerLat, centerLon, zoomLevel, showZoomControls, showAttribution, dataSource, latitudeAttribute, longitudeAttribute, titleAttribute, markerColor, dynamicLayerSource, layerIdAttribute, layerUrlAttribute, layerTypeAttribute, layerTitleAttribute, layerVisibleAttribute, layerOpacityAttribute, enablePopups, popupTemplateAttribute, enableSearch, searchStartExpanded, searchPosition, enableBasemapToggle, basemapTogglePosition, enableLegend, legendPosition, enableLayerToggle, layerToggleStartExpanded, layerTogglePosition]);
 
     return (
         <div

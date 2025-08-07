@@ -54,6 +54,8 @@ export interface ArcWidgetContainerProps {
     layerTitleAttribute?: ListAttributeValue<string>;
     layerVisibleAttribute?: ListAttributeValue<boolean>;
     layerOpacityAttribute?: ListAttributeValue<Big>;
+    enablePopups: boolean;
+    popupTemplateAttribute?: ListAttributeValue<string>;
 }
 
 export interface ArcWidgetPreviewProps {
@@ -97,4 +99,6 @@ export interface ArcWidgetPreviewProps {
     layerTitleAttribute: string;
     layerVisibleAttribute: string;
     layerOpacityAttribute: string;
+    enablePopups: boolean;
+    popupTemplateAttribute: string;
 }

@@ -208,6 +208,17 @@
                     <attributeType name="Decimal"/>
                 </attributeTypes>
             </property>
+            <property key="enablePopups" type="boolean" defaultValue="true">
+                <caption>Enable Feature Popups</caption>
+                <description>Show popups when clicking on features in dynamic layers</description>
+            </property>
+            <property key="popupTemplateAttribute" type="attribute" dataSource="dynamicLayerSource" required="false">
+                <caption>Custom Popup Template</caption>
+                <description>Optional JSON template for custom popup content</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
         </propertyGroup>
     </properties>
 </widget>
